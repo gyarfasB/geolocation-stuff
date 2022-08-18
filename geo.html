@@ -1,0 +1,60 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <link rel="stylesheet" href="main.css">
+    <title>Positioning</title>
+    <script>
+        function main() {
+        var geolocation = null
+        if(window.navigator && window.navigator.geolocation){
+            geolocation = window.navigator.geolocation
+        }
+        if(geolocation) {
+            //geolocation.getCurrentPosition(onLocationUpdate)
+            geolocation.watchPosition(onLocationUpdate)
+        }else{
+            alert("Hiba.")
+        }
+        window.addEventListener("deviceorientation", onorientationchange)
+    }
+        function onorientationchange(event){
+            console.log(event)
+            var beta = event.beta
+
+            const canvas = document.getElementById("canvas")
+            canvas.width=window.innerWidth
+            canvas.height=window.innerHeight
+            const context = canvas.getContext("2d")
+            context.beginPath()
+            const center =[
+                canvas.width/2,
+                canvas.height/2
+            ]
+            const location = [
+                center[0],
+                center[1] + (beta/180)*canvas.height/2
+            ]
+            const radius = canvas.width * 0.2
+            context.arc(location[0],location[1],radius,0,Math.PI*2)
+            context.stroke()
+
+        }
+        function onLocationUpdate(event) {
+            //console.log(event)
+            var str = "Latitude: " +event.coords["latitude"]+"<br>"+
+                      "Longitude: " +event.coords["longitude"]
+                      document.getElementById("coordinates").innerHTML=str
+        
+    }
+    </script>
+</head>
+<body onload="main()">
+    <h1>Geolocation
+    </h1>
+    <div id="coordinates"></div>
+    <canvas id="canvas"></canvas>
+</body>
+</html>

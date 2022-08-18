@@ -1,0 +1,10 @@
+#coordinates {
+    font-size: 9vw;
+    font-weight: bold;
+}
+#canvas {
+    position: absolute;
+    top: 0;
+    left:0;
+
+}
